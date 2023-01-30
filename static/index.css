@@ -1,0 +1,137 @@
+.valid_bg{
+    display: initial;
+    background-color: black; /* Green */
+    text-align:center;
+}
+
+.hide{
+    display:none;
+}
+
+.buttonnn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.people_to_pass{
+    background-color: #e6e6e6; /* Green */
+    border: none;
+    color: #666666;
+    /* position: absolute;
+    left: 50%; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3.5em;
+    margin:5% 0%;
+}
+
+.info_textfield{
+    font: 3.5em "Fira Sans", sans-serif;
+    padding: 10px; 
+    background: #d4fcff;
+    /* border: 2px solid red; */
+    width: 80%;
+    color: #292a00;
+    text-align: center;
+    margin:2% 10% 0%;
+}
+
+.validated_textfield{
+    font: 3.5em "Fira Sans", sans-serif;
+    padding: 10px; 
+    background: #fbff7f;
+    /* border: 2px solid red; */
+    width: 80%;
+    color: #292a00;
+    text-align: center;
+    margin:2% 10% 0%;
+}
+
+.invalid_textfield{
+    font: 3.5em "Fira Sans", sans-serif;
+    padding: 10px; 
+    background: #f0bbbb;
+    /* border: 2px solid red; */
+    width: 80%;
+    color: #c95151;
+    text-align: center;
+    margin:2% 10% 0%;
+}
+
+.scan_again {
+    background-color: #e6e6e6; /* Green */
+    border: none;
+    color: #666666;
+    /* position: absolute;
+    left: 50%; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3.5em;
+    margin:2% 0%;
+}
+
+.pass {
+    background-color: #29b237; /* Green */
+    border: none;
+    color: #ffffff;
+    /* position: absolute;
+    left: 50%; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3.5em;
+    margin:1% 0%;
+}
+
+.increment_button {
+    background-color: #29b237; /* Green */
+    border: none;
+    color: #ffffff;
+    /* position: absolute;
+    left: 50%; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3.5em;
+    margin:5% 0%;
+}
+
+.decrement_button {
+    background-color: #b22929; /* Green */
+    border: none;
+    color: #ffffff;
+    /* position: absolute;
+    left: 50%; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3.5em;
+    margin:5% 0%;
+}
+
+.decrement_button {
+    background-color: #b22929; /* Green */
+    border: none;
+    color: #ffffff;
+    /* position: absolute;
+    left: 50%; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3.5em;
+    margin:5% 0%;
+}
