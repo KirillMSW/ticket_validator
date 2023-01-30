@@ -13,7 +13,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = None
 with open('table_url.txt') as table_url:
-        SAMPLE_SPREADSHEET_ID=table_url.read
+        SAMPLE_SPREADSHEET_ID=table_url.read()
 
 creds = None
     # The file token.json stores the user's access and refresh tokens, and is
