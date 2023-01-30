@@ -67,7 +67,7 @@
         formdata = new FormData;
         formdata.append("ticket_id",ticket_id);
         formdata.append("people_to_pass", people_to_pass);
-        fetch("http://kirillmsw.ru/api/checkin",{
+        fetch("https://kirillmsw.ru/api/checkin",{
             method: 'POST',
             body: formdata
         });
@@ -94,7 +94,7 @@
     }
    async function onScanSuccess(decodedText, decodedResult) {
         // handle the scanned code as you like, for example:
-        var result = await httpGet(`http://kirillmsw.ru/api/validate?key=${decodedText}`,decodedText);
+        var result = await httpGet(`https://kirillmsw.ru/api/validate?key=${decodedText}`,decodedText);
         html5QrCode.pause(true);
         if (Object.keys(result).length!=0){
             if (result["people_amount"]==0){
