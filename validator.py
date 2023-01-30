@@ -5,6 +5,7 @@ import json
 
 from ticket_generator import generate_ticket_id, generate_ticket
 
+from table_exporter import add_new
 
 app = Flask(__name__)
 
@@ -53,8 +54,12 @@ def checkin():
 @app.post("/api/generate")
 def generate():
     name=request.form.get('name')
-    people_amount=request.form.get('people_amount')
+    surnaname=request.form.get('surname')
+    patronymic=request.form.get('patronymic')
+    phone=request.form.get('phone')
+    email=request.form.get('email')
 
+    full_name=name+' '+surnaname+' '+patronymic
     all_tickets = None
     with open('db.json') as f:
         all_tickets=json.load(f)
@@ -62,11 +67,14 @@ def generate():
     new_ticket_id=generate_ticket_id()
     while new_ticket_id in all_tickets:
         new_ticket_id=generate_ticket_id()
-    all_tickets[new_ticket_id]={"people_amount":int(people_amount),"name":name}
+    all_tickets[new_ticket_id]={"people_amount":1,"name":name,
+                                "surnaname":surnaname,"patronymic":patronymic,"phone":phone,"email":email}
     with open('db.json','w') as f:
         f.write(json.dumps(all_tickets))
-    generate_ticket(new_ticket_id,name,people_amount)
+    generate_ticket(new_ticket_id,full_name)
     
+    add_new(new_ticket_id,name,surnaname,patronymic,phone,email)
+
     resp = make_response(send_file("tickets/"+new_ticket_id+'.png'))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp

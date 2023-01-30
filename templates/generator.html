@@ -5,30 +5,82 @@
     <link rel="stylesheet" href="/static/index.css" type="text/css"/>
   <body>
     <div style="text-align:center">
-      <input type="text" size="32" style="font-size: 3em;" id="name" placeholder="ФИО">
+      <textarea style="font-size: 3em;" id="filler" placeholder="Fill" rows="4" cols="40"></textarea>
       <br>
-      <input type="text" style="font-size: 3em;" id="people_amount" placeholder="Количество гостей">
+      <input type="text" style="font-size: 3em;text-transform: capitalize" id="name" placeholder="Имя">
+      <br>
+      <input type="text" style="font-size: 3em;text-transform: capitalize" id="surname" placeholder="Фамилия">
+      <br>
+      <input type="text" style="font-size: 3em; text-transform: capitalize" id="patronymic" placeholder="Отчество">
+      <br>
+      <input type="text" style="font-size: 3em;" id="phone" placeholder="Телефон">
+      <br>
+      <input type="text" style="font-size: 3em;" id="email" placeholder="Почта">
+      <br>
+      <button type="button"  class="pass" onclick="fill()">Заполнить</button>
       <br>
       <button type="button"  class="pass" onclick="pass()">Сгенерировать билет</button>
       <br>
-      <img id="ticket" src=""/>
+      <a id="clipboard_status"></a>
+      <img id="ticket" src="" style="max-width: 100%;"/>
     </div>
     
     <script>
+        async function fill(){
+          let data=document.getElementById('filler').value
+          console.log(data)
+
+          const name_re = new RegExp('[А-Яа-я]+ [А-Яа-я]+ *[А-Яа-я]*')
+          const phone_re = new RegExp('[\+]?[(]?[0-9]{3}[)]?[-\\s\.]?[0-9]{3}[-\\s\.]?[0-9]{4,6}')
+          const email_re = new RegExp('\\w+@\\w+.\\w+')
+          let full_name=name_re.exec(data)
+          let phone=phone_re.exec(data)
+          let email=email_re.exec(data)
+
+          console.log(full_name)
+          console.log(phone)
+
+          console.log(email)
+          if (full_name!=null){
+            let name_array=full_name[0].split(' ')
+            document.getElementById('name').value=name_array[0]
+            document.getElementById('surname').value=name_array[1]
+            document.getElementById('patronymic').value=name_array[2]
+          }
+          
+          document.getElementById('phone').value=phone
+          document.getElementById('email').value=email
+
+
+        }
+
         async function pass(){
             var name=document.getElementById('name').value
-            var people_amount=document.getElementById('people_amount').value
-            console.log(name)
+            var surname=document.getElementById('surname').value
+            var patronymic=document.getElementById('patronymic').value
+            var phone=document.getElementById('phone').value
+            var email=document.getElementById('email').value
+
             formdata = new FormData;
             formdata.append("name",name);
-            formdata.append("people_amount", people_amount);
-            const response = await fetch("http://127.0.0.1:5000/api/generate",{
+            formdata.append("surname", surname);
+            formdata.append("patronymic",patronymic);
+            formdata.append("phone", phone);
+            formdata.append("email", email);
+
+            const response = await fetch("http://kirillmsw.ru/api/generate",{
               method: 'POST',
               body: formdata
             });
             const blob = await response.blob()
             console.log(blob)
-            await navigator.clipboard.write([new ClipboardItem({'image/png':blob})])
+            try {
+              await navigator.clipboard.write([new ClipboardItem({'image/png':blob})])
+              document.getElementById("clipboard_status").innerHTML = "Скопировано в буфер обмена"
+              document.getElementById("clipboard_status").className = "buttonnn"
+            } catch(err){
+              
+            }
             var img_url=URL.createObjectURL(blob)
             document.getElementById('ticket').src=img_url
         }

@@ -13,7 +13,7 @@ def generate_ticket_id():
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
 
-def generate_ticket(ticket_id, client_name, people_amount):
+def generate_ticket(ticket_id, client_name):
     img = qrcode.make(ticket_id)
     im1 = Image.open('qr_background.jpg')
     img=img.resize((600,600))
@@ -23,6 +23,5 @@ def generate_ticket(ticket_id, client_name, people_amount):
     I1 = ImageDraw.Draw(back_im)
     I1.text((540, 1400), ticket_id,font=font, fill=(255, 255, 255), anchor="ma")
     I1.text((540, 1500), client_name,font=font, fill=(255, 255, 255), anchor="ma")
-    I1.text((540, 1600), "Количество гостей: "+str(people_amount),font=font, fill=(255, 255, 255), anchor="ma")
     back_im.save("tickets/"+str(ticket_id)+'.png', quality=75)
 
