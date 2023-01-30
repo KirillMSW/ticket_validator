@@ -19,7 +19,7 @@ def generate_ticket(ticket_id, client_name):
     img=img.resize((600,600))
     back_im = im1.copy()
     back_im.paste(img,(240,700))
-    font = ImageFont.truetype('Arial Unicode.ttf', 50)
+    font = ImageFont.truetype('fonts/Arial Unicode.ttf', 50)
     I1 = ImageDraw.Draw(back_im)
     I1.text((540, 1400), ticket_id,font=font, fill=(255, 255, 255), anchor="ma")
     I1.text((540, 1500), client_name,font=font, fill=(255, 255, 255), anchor="ma")
