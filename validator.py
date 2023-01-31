@@ -72,7 +72,7 @@ def generate():
                                 "surnaname":surname,"patronymic":patronymic,"phone":phone,"email":email}
     with open('db.json','w') as f:
         f.write(json.dumps(all_tickets))
-    generate_ticket(new_ticket_id,full_name)
+    generate_ticket(new_ticket_id,full_name_ticket)
     
     add_new(new_ticket_id,surname,name,patronymic,phone,email)
 
