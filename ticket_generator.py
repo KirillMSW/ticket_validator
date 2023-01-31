@@ -28,7 +28,7 @@ def generate_ticket(ticket_id, client_name):
     # img.save("some_file.png")
 
     # img = qrcode.make(ticket_id)
-    im1 = Image.open('qr_background7.jpg')
+    im1 = Image.open('qr_background.jpg')
     img=img.resize((320,320))
     back_im = im1.copy()
     back_im.paste(img,(369,500))
