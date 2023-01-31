@@ -63,13 +63,13 @@ def update():
     print(table_data)
     print(len(table_data))
 
-def add_new(ticket_id,name,surname,patronymic,phone,email):
+def add_new(ticket_id,surname,name,patronymic,phone,email):
     table_data = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
                                   range="A:F").execute()
     table_data = table_data.get('values', [])
     row_to_insert=len(table_data)+1
     body={
-        'values':[[ticket_id,name,surname,patronymic,phone,email]]
+        'values':[[ticket_id,surname,name,patronymic,phone,email]]
     }
     service.spreadsheets().values().update(
             spreadsheetId=SAMPLE_SPREADSHEET_ID, range="A{row_to_insert}:F{row_to_insert}".format(row_to_insert=row_to_insert),

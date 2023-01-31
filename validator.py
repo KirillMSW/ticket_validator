@@ -53,13 +53,14 @@ def checkin():
 
 @app.post("/api/generate")
 def generate():
+    surname=request.form.get('surname')
     name=request.form.get('name')
-    surnaname=request.form.get('surname')
     patronymic=request.form.get('patronymic')
     phone=request.form.get('phone')
     email=request.form.get('email')
 
-    full_name=name+' '+surnaname+' '+patronymic
+    full_name=surname+' '+name+' '+patronymic
+    full_name_ticket=surname+'\n'+name+' '+patronymic
     all_tickets = None
     with open('db.json') as f:
         all_tickets=json.load(f)
@@ -68,12 +69,12 @@ def generate():
     while new_ticket_id in all_tickets:
         new_ticket_id=generate_ticket_id()
     all_tickets[new_ticket_id]={"people_amount":1,"name":name,
-                                "surnaname":surnaname,"patronymic":patronymic,"phone":phone,"email":email}
+                                "surnaname":surname,"patronymic":patronymic,"phone":phone,"email":email}
     with open('db.json','w') as f:
         f.write(json.dumps(all_tickets))
     generate_ticket(new_ticket_id,full_name)
     
-    add_new(new_ticket_id,name,surnaname,patronymic,phone,email)
+    add_new(new_ticket_id,surname,name,patronymic,phone,email)
 
     resp = make_response(send_file("tickets/"+new_ticket_id+'.png'))
     resp.headers['Access-Control-Allow-Origin'] = '*'

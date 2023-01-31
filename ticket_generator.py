@@ -1,6 +1,8 @@
 import string
 import random
 import qrcode
+from qrcode.image.styledpil import StyledPilImage
+from qrcode.image.styles.colormasks import HorizontalGradiantColorMask
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
@@ -14,14 +16,26 @@ def generate_ticket_id():
     return result_str
 
 def generate_ticket(ticket_id, client_name):
-    img = qrcode.make(ticket_id)
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=0,
+    )
+    qr.add_data(ticket_id)
+    qr.make(fit=True)
+    img = qr.make_image(image_factory=StyledPilImage,color_mask=HorizontalGradiantColorMask(back_color=(255,255,255),left_color=(240,139,231),right_color=(49,34,89)))
+    # img.save("some_file.png")
+
+    # img = qrcode.make(ticket_id)
     im1 = Image.open('qr_background.jpg')
-    img=img.resize((600,600))
+    img=img.resize((300,300))
     back_im = im1.copy()
-    back_im.paste(img,(240,700))
-    font = ImageFont.truetype('fonts/Arial Unicode.ttf', 50)
+    back_im.paste(img,(384,700))
+    font = ImageFont.truetype('fonts/Arial-Unicode-Bold.ttf', 60)
     I1 = ImageDraw.Draw(back_im)
-    I1.text((540, 1400), ticket_id,font=font, fill=(255, 255, 255), anchor="ma")
-    I1.text((540, 1500), client_name,font=font, fill=(255, 255, 255), anchor="ma")
+    I1.text((534, 1400), ticket_id,font=font, fill=(255, 255, 255), anchor="ma")
+    I1.multiline_text((534, 1500), client_name,font=font, fill=(255, 255, 255), anchor="ma",align='center')
     back_im.save("tickets/"+str(ticket_id)+'.png', quality=75)
+
 
