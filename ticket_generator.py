@@ -38,4 +38,3 @@ def generate_ticket(ticket_id, client_name):
     I1.multiline_text((534, 1500), client_name,font=font, fill=(255, 255, 255), anchor="ma",align='center')
     back_im.save("tickets/"+str(ticket_id)+'.png', quality=75)
 
-generate_ticket("QWERT","Счастливцева\nВиктория\nВладимировна")
