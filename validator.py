@@ -60,7 +60,7 @@ def generate():
     email=request.form.get('email')
 
     full_name=surname+' '+name+' '+patronymic
-    full_name_ticket=surname+'\n'+name+' '+patronymic
+    full_name_ticket=surname+'\n'+name+'\n'+patronymic
     all_tickets = None
     with open('db.json') as f:
         all_tickets=json.load(f)
