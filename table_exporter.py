@@ -53,26 +53,91 @@ sheet = service.spreadsheets()
 #             spreadsheetId=SAMPLE_SPREADSHEET_ID, range="A1:B2",
 #             valueInputOption="USER_ENTERED", body=body).execute()
 
-def update():
-    all_tickets=None
-    with open('db.json') as f:
-        all_tickets=json.load(f)
+ROW_NUM=6
+def update_status(ticket_id,status):
     table_data = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                  range="A:F").execute()
+                                  range="A:A").execute()
     table_data = table_data.get('values', [])
-    print(table_data)
-    print(len(table_data))
+    row_to_update = None
+    for i in range(len(table_data)):
+        if ticket_id in table_data[i]:
+            row_to_update=i
+
+    if row_to_update!=None:
+        row_to_update+=1
+        body={
+        'values':[[status]]
+        }
+        service.spreadsheets().values().update(
+                spreadsheetId=SAMPLE_SPREADSHEET_ID, range="B{row_to_update}".format(row_to_update=row_to_update),
+                valueInputOption="USER_ENTERED", body=body).execute()
+
+
+def void_table(ticket_id):
+    table_data = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
+                                  range="A").execute()
+    table_data = table_data.get('values', [])
+    row_to_delete = None
+    for i in range(len(table_data)):
+        if ticket_id in table_data[i]:
+            row_to_delete=i
+
+    if row_to_delete!=None:
+        row_to_delete+=1
+        body={
+        'values':[["АННУЛИРОВАН"]]
+        }
+        service.spreadsheets().values().update(
+                spreadsheetId=SAMPLE_SPREADSHEET_ID, range="B{row_to_delete}".format(row_to_delete=row_to_delete),
+                valueInputOption="USER_ENTERED", body=body).execute()
+
+    # format_values=[]
+    # if row_to_delete!=None:
+    #     for i in range(ROW_NUM):
+    #         format_values.append({
+    #                                 "userEnteredFormat": {
+    #                                     "textFormat":{
+
+    #                                     "foregroundColorStyle": {
+    #                                         "rgbColor": {
+    #                                         "red": 1,
+    #                                         "green": 0,
+    #                                         "blue": 0,
+    #                                         "alpha": 1
+    #                                 }}}}})
+    #     requests =[]
+
+    #     requests.append({
+    #                 "updateCells": {
+    #                 "rows": [
+    #                     {
+    #                         "values": format_values
+    #                     }
+    #                 ],
+    #                 "fields": 'userEnteredFormat.textFormat.foregroundColorStyle',
+    #                 "start": {
+    #                     "sheetId": 0,
+    #                     "rowIndex":row_to_delete,
+    #                     "columnIndex": 0
+    #                 }}})
+    #     final_body={
+    #         "requests":requests
+    #     }
+    #     service.spreadsheets().batchUpdate(
+    #             spreadsheetId=SAMPLE_SPREADSHEET_ID, body=final_body).execute()
 
 def add_new(ticket_id,surname,name,patronymic,phone,email):
     table_data = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                  range="A:F").execute()
+                                  range="A:A").execute()
     table_data = table_data.get('values', [])
     row_to_insert=len(table_data)+1
     body={
-        'values':[[ticket_id,surname,name,patronymic,phone,email]]
+        'values':[[ticket_id,"АКТИВЕН",surname,name,patronymic,phone,email]]
     }
     service.spreadsheets().values().update(
-            spreadsheetId=SAMPLE_SPREADSHEET_ID, range="A{row_to_insert}:F{row_to_insert}".format(row_to_insert=row_to_insert),
+            spreadsheetId=SAMPLE_SPREADSHEET_ID, range="A{row_to_insert}:G{row_to_insert}".format(row_to_insert=row_to_insert),
             valueInputOption="USER_ENTERED", body=body).execute()
 
 # add_new("JOPA","Василий","Пенисный","Дождь","88005553535;","poshel@nahui.ru")
+
+

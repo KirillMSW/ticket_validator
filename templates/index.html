@@ -4,6 +4,7 @@
     <title>Html-Qrcode Demo</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <link rel="stylesheet" href="/static/index.css" type="text/css"/>
+    <!-- <script type = "text/javascript" src="/static/validator.js"></script> -->
     <meta name="viewport" content="user-scalable=no">
   <body>
     <div id="reader" height="300px" ></div>
@@ -49,94 +50,94 @@
   </body>
   <script>
     function decrement(){
-        var asd=parseInt(document.getElementById("people_to_pass").innerHTML,10);
-        if (asd>1)
-            asd-=1;
-        document.getElementById("people_to_pass").innerHTML = asd;
-    }
-    function increment(){
-        var asd=parseInt(document.getElementById("people_to_pass").innerHTML,10);
-        var people_amount=parseInt(document.getElementById("people_amount").innerHTML,10);
-        if (asd<people_amount)
-            asd+=1;
-        document.getElementById("people_to_pass").innerHTML = asd;
-    }
-    async function pass(){
-        var ticket_id = document.getElementById("ticket_id").innerHTML;
-        var people_to_pass=document.getElementById("people_to_pass").innerHTML;
-        formdata = new FormData;
-        formdata.append("ticket_id",ticket_id);
-        formdata.append("people_to_pass", people_to_pass);
-        fetch("https://kirillmsw.ru/api/checkin",{
-            method: 'POST',
-            body: formdata
-        });
-        resume();
-    }
-    function resume(){
-        document.getElementById("valid").style.display = "none";
-        document.getElementById("validated").style.display = "none";
-        document.getElementById("invalid").style.display = "none";
-        document.getElementById("people_to_pass").innerHTML = 1;
-        html5QrCode.resume();
-    }
-    async function httpGet(theUrl,ticket_id) {
-        // var xmlHttp = new XMLHttpRequest();
-        // xmlHttp.open( "GET", theUrl, true ); // false for synchronous request
-        // xmlHttp.send();
-        // console.log("lol");
-        let response = await fetch(theUrl);
-        let result = await response.json();
-        return result;
-        // console.log(result);
-        // document.getElementById("ticket_id").innerHTML = ticket_id;
-        //return xmlHttp.responseText;
-    }
-   async function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        var result = await httpGet(`https://kirillmsw.ru/api/validate?key=${decodedText}`,decodedText);
-        html5QrCode.pause(true);
-        if (Object.keys(result).length!=0){
-            if (result["people_amount"]==0){
-                document.getElementById("validated").style.display = "initial";
-                document.getElementById("validated_ticket_id").innerHTML = decodedText;
-                document.getElementById("valideted_client_name").innerHTML = result["name"];
-            }
-            else {
-                document.getElementById("valid").style.display = "initial";
-                // document.getElementById("valid").style.backgroundColor = "#00cc00";
-                // document.getElementById("valid").style.background="#00cc00";
-                document.getElementById("ticket_id").innerHTML = decodedText;
-                document.getElementById("people_amount").innerHTML = result["people_amount"];
-                document.getElementById("client_name").innerHTML = result["name"];
-            }
+    var asd=parseInt(document.getElementById("people_to_pass").innerHTML,10);
+    if (asd>1)
+        asd-=1;
+    document.getElementById("people_to_pass").innerHTML = asd;
+}
+function increment(){
+    var asd=parseInt(document.getElementById("people_to_pass").innerHTML,10);
+    var people_amount=parseInt(document.getElementById("people_amount").innerHTML,10);
+    if (asd<people_amount)
+        asd+=1;
+    document.getElementById("people_to_pass").innerHTML = asd;
+}
+async function pass(){
+    var ticket_id = document.getElementById("ticket_id").innerHTML;
+    var people_to_pass=document.getElementById("people_to_pass").innerHTML;
+    formdata = new FormData;
+    formdata.append("ticket_id",ticket_id);
+    formdata.append("people_to_pass", people_to_pass);
+    fetch("/api/checkin",{
+        method: 'POST',
+        body: formdata
+    });
+    resume();
+}
+function resume(){
+    document.getElementById("valid").style.display = "none";
+    document.getElementById("validated").style.display = "none";
+    document.getElementById("invalid").style.display = "none";
+    document.getElementById("people_to_pass").innerHTML = 1;
+    html5QrCode.resume();
+}
+async function httpGet(theUrl,ticket_id) {
+    // var xmlHttp = new XMLHttpRequest();
+    // xmlHttp.open( "GET", theUrl, true ); // false for synchronous request
+    // xmlHttp.send();
+    // console.log("lol");
+    let response = await fetch(theUrl);
+    let result = await response.json();
+    return result;
+    // console.log(result);
+    // document.getElementById("ticket_id").innerHTML = ticket_id;
+    //return xmlHttp.responseText;
+}
+async function onScanSuccess(decodedText, decodedResult) {
+    // handle the scanned code as you like, for example:
+    var result = await httpGet(`/api/validate?key=${decodedText}`,decodedText);
+    html5QrCode.pause(true);
+    if (Object.keys(result).length!=0){
+        if (result["people_amount"]==0){
+            document.getElementById("validated").style.display = "initial";
+            document.getElementById("validated_ticket_id").innerHTML = decodedText;
+            document.getElementById("valideted_client_name").innerHTML = result["name"];
         }
-        else{
-            document.getElementById("invalid").style.display = "initial";
-            document.getElementById("invalid_ticket_id").innerHTML = decodedText;
+        else {
+            document.getElementById("valid").style.display = "initial";
+            // document.getElementById("valid").style.backgroundColor = "#00cc00";
+            // document.getElementById("valid").style.background="#00cc00";
+            document.getElementById("ticket_id").innerHTML = decodedText;
+            document.getElementById("people_amount").innerHTML = result["people_amount"];
+            document.getElementById("client_name").innerHTML = result["name"];
         }
-
-   }
-
-    function onScanFailure(error) {
-    // handle scan failure, usually better to ignore and keep scanning.
-    // for example:
-    console.warn(`Code scan error = ${error}`);
+    }
+    else{
+        document.getElementById("invalid").style.display = "initial";
+        document.getElementById("invalid_ticket_id").innerHTML = decodedText;
     }
 
-    const html5QrCode = new Html5Qrcode("reader");
-    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-        onScanSuccess(decodedText, decodedResult)
-    };
-    let height = screen.height*0.4;
+}
+
+function onScanFailure(error) {
+// handle scan failure, usually better to ignore and keep scanning.
+// for example:
+console.warn(`Code scan error = ${error}`);
+}
+
+const html5QrCode = new Html5Qrcode("reader");
+const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    onScanSuccess(decodedText, decodedResult)
+};
+let height = screen.height*0.4;
 const config = { fps: 10, qrbox: { width: 550, height: 550 }, aspectRatio:1.0 };
 // let html5QrcodeScanner = new Html5QrcodeScanner(
 //   "reader",
 //   { fps: 10, qrbox: {width: 250, height: 250} },
 //   /* verbose= */ false);
-  html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 //   html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-  
+
 </script>
   </head>
 </html>

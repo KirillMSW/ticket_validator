@@ -5,17 +5,21 @@ import json
 
 from ticket_generator import generate_ticket_id, generate_ticket
 
-from table_exporter import add_new
+from table_exporter import add_new, void_table, update_status
 
 app = Flask(__name__)
 
 @app.route('/validate')
-def home():
+def validator():
    return render_template('index.html')
 
 @app.route('/generate')
 def generator():
    return render_template('generator.html')
+
+@app.route('/void')
+def voider():
+   return render_template('void_ticket.html')
 
 @app.get("/api/validate")
 def validate():
@@ -31,6 +35,28 @@ def validate():
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
 
+@app.post("/api/void")
+def void():
+    ticket_id=request.form.get('ticket_id')
+    all_tickets = None
+    with open('db.json') as f:
+        all_tickets=json.load(f)
+    if ticket_id in all_tickets:
+        all_tickets[ticket_id]["people_amount"]=-1
+        with open('db.json','w') as f:
+            f.write(json.dumps(all_tickets))
+        update_status(ticket_id,"АННУЛИРОВАН")
+
+        resp = Response("OK")
+        return resp
+    else:
+        resp = Response("INVALID")
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
+    
+
+
+
 @app.post("/api/checkin")
 def checkin():
     ticket_id=request.form.get('ticket_id')
@@ -43,6 +69,7 @@ def checkin():
         all_tickets[ticket_id]["people_amount"]-=int(people_to_pass)
         with open('db.json','w') as f:
             f.write(json.dumps(all_tickets))
+        update_status(ticket_id,"ИЗРАСХОДОВАН")
         resp = Response("OK")
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
