@@ -13,9 +13,9 @@
             <a id="ticket_id"></a>
             <br>
             <a id="client_name"></a>
-            <p>Могут пройти: <a id="people_amount"></a></p>
+            <p style="display:none;">Могут пройти: <a id="people_amount"></a></p>
         </div>
-        <div style="text-align:center">
+        <div style="text-align:center;display:none;">
             <button type="button" class="decrement_button" onclick="decrement()">-</button>
             <a id="people_to_pass" class="people_to_pass">1</a>
             <button type="button" class="increment_button" onclick="increment()">+</button>
@@ -109,7 +109,7 @@ async function onScanSuccess(decodedText, decodedResult) {
             // document.getElementById("valid").style.background="#00cc00";
             document.getElementById("ticket_id").innerHTML = decodedText;
             document.getElementById("people_amount").innerHTML = result["people_amount"];
-            document.getElementById("client_name").innerHTML = result["name"];
+            document.getElementById("client_name").innerHTML = result["surname"]+' '+result["name"]+' '+result["patronymic"];
         }
     }
     else{

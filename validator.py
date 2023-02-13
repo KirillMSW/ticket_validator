@@ -27,7 +27,8 @@ def validate():
     with open('db.json') as f:
         all_tickets=json.load(f)
         if ticket_id in all_tickets.keys():
-            resp = make_response(jsonify(ticket_id=ticket_id, people_amount=all_tickets[ticket_id]["people_amount"],name=all_tickets[ticket_id]["name"]))
+            resp = make_response(jsonify(ticket_id=ticket_id, people_amount=all_tickets[ticket_id]["people_amount"],
+                                    surname=all_tickets[ticket_id]["surname"],name=all_tickets[ticket_id]["name"],patronymic=all_tickets[ticket_id]["patronymic"]))
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
         else:
@@ -96,7 +97,7 @@ def generate():
     while new_ticket_id in all_tickets:
         new_ticket_id=generate_ticket_id()
     all_tickets[new_ticket_id]={"people_amount":1,"name":name,
-                                "surnaname":surname,"patronymic":patronymic,"phone":phone,"email":email}
+                                "surname":surname,"patronymic":patronymic,"phone":phone,"email":email}
     with open('db.json','w') as f:
         f.write(json.dumps(all_tickets))
     generate_ticket(new_ticket_id,full_name_ticket)
