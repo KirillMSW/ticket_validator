@@ -8,6 +8,16 @@
     <meta name="viewport" content="user-scalable=no">
   <body>
     <div id="reader" height="300px" ></div>
+    <div id="manual_input" style="text-align:center;">
+        <br>
+        <div style="text-align:center;">
+            <input type="text" style="font-size: 3em;text-transform: capitalize;" id="manual_ticket_id" placeholder="ID билета">
+        </div>
+        <br>
+        <div style="text-align:center;">
+            <button type="button"  class="pass" onclick="manual_validation()">Ввод</button>
+        </div>
+    </div>
     <div id="valid" style="display:none; text-align:center;">
         <div class="info_textfield">
             <a id="ticket_id"></a>
@@ -79,6 +89,7 @@ function resume(){
     document.getElementById("validated").style.display = "none";
     document.getElementById("invalid").style.display = "none";
     document.getElementById("people_to_pass").innerHTML = 1;
+    document.getElementById("manual_input").style.display = "initial";
     html5QrCode.resume();
 }
 async function httpGet(theUrl,ticket_id) {
@@ -93,15 +104,41 @@ async function httpGet(theUrl,ticket_id) {
     // document.getElementById("ticket_id").innerHTML = ticket_id;
     //return xmlHttp.responseText;
 }
+async function manual_validation(){
+    let decodedText=document.getElementById('manual_ticket_id').value
+    var result = await httpGet(`/api/validate?key=${decodedText}`,decodedText);
+    html5QrCode.pause(true);
+    document.getElementById("manual_input").style.display = "none";
+    if (Object.keys(result).length!=0){
+        if (result["people_amount"]<=0){
+            document.getElementById("validated").style.display = "initial";
+            document.getElementById("validated_ticket_id").innerHTML = decodedText;
+            document.getElementById("valideted_client_name").innerHTML = result["surname"]+' '+result["name"]+' '+result["patronymic"];
+        }
+        else {
+            document.getElementById("valid").style.display = "initial";
+            // document.getElementById("valid").style.backgroundColor = "#00cc00";
+            // document.getElementById("valid").style.background="#00cc00";
+            document.getElementById("ticket_id").innerHTML = decodedText;
+            document.getElementById("people_amount").innerHTML = result["people_amount"];
+            document.getElementById("client_name").innerHTML = result["surname"]+' '+result["name"]+' '+result["patronymic"];
+        }
+    }
+    else{
+        document.getElementById("invalid").style.display = "initial";
+        document.getElementById("invalid_ticket_id").innerHTML = decodedText;
+    }
+}
 async function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
     var result = await httpGet(`/api/validate?key=${decodedText}`,decodedText);
     html5QrCode.pause(true);
+    document.getElementById("manual_input").style.display = "none";
     if (Object.keys(result).length!=0){
-        if (result["people_amount"]==0){
+        if (result["people_amount"]<=0){
             document.getElementById("validated").style.display = "initial";
             document.getElementById("validated_ticket_id").innerHTML = decodedText;
-            document.getElementById("valideted_client_name").innerHTML = result["name"];
+            document.getElementById("valideted_client_name").innerHTML = result["surname"]+' '+result["name"]+' '+result["patronymic"];
         }
         else {
             document.getElementById("valid").style.display = "initial";

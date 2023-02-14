@@ -19,6 +19,15 @@
     font-size: 16px;
 }
 
+.name_input_field{
+    font-size: 3em;
+    text-transform: capitalize;
+}
+
+.input_field{
+    font-size: 3em;
+}
+
 .people_to_pass{
     background-color: #e6e6e6; /* Green */
     border: none;
@@ -36,10 +45,12 @@
 .info_textfield{
     font: 3.5em "Fira Sans", sans-serif;
     padding: 10px; 
-    background: #d4fcff;
+    background: #0586ff;
+    border-radius: 20px;
+
     /* border: 2px solid red; */
     width: 80%;
-    color: #292a00;
+    color: #ffffff;
     text-align: center;
     margin:2% 10% 0%;
 }
@@ -47,10 +58,12 @@
 .validated_textfield{
     font: 3.5em "Fira Sans", sans-serif;
     padding: 10px; 
-    background: #fbff7f;
+    background: #ffbf50;
+    border-radius: 20px;
+
     /* border: 2px solid red; */
     width: 80%;
-    color: #292a00;
+    color: #ffffff;
     text-align: center;
     margin:2% 10% 0%;
 }
@@ -58,10 +71,12 @@
 .invalid_textfield{
     font: 3.5em "Fira Sans", sans-serif;
     padding: 10px; 
-    background: #f0bbbb;
+    background: #aa1313;
+    border-radius: 20px;
+
     /* border: 2px solid red; */
     width: 80%;
-    color: #c95151;
+    color: #ffffff;
     text-align: center;
     margin:2% 10% 0%;
 }
@@ -69,6 +84,8 @@
 .scan_again {
     background-color: #e6e6e6; /* Green */
     border: none;
+    border-radius: 20px;
+
     color: #666666;
     /* position: absolute;
     left: 50%; */
@@ -82,6 +99,7 @@
 
 .pass {
     background-color: #29b237; /* Green */
+    border-radius: 20px;
     border: none;
     color: #ffffff;
     /* position: absolute;
@@ -91,7 +109,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 3.5em;
-    margin:1% 0%;
+    margin:2% 0% 0%;
 }
 
 .increment_button {
@@ -135,3 +153,4 @@
     font-size: 3.5em;
     margin:5% 0%;
 }
+

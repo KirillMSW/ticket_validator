@@ -81,9 +81,9 @@ def checkin():
 
 @app.post("/api/generate")
 def generate():
-    surname=request.form.get('surname')
-    name=request.form.get('name')
-    patronymic=request.form.get('patronymic')
+    surname=request.form.get('surname').capitalize()
+    name=request.form.get('name').capitalize()
+    patronymic=request.form.get('patronymic').capitalize()
     phone=request.form.get('phone')
     email=request.form.get('email')
 
