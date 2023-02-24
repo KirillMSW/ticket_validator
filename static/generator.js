@@ -2,7 +2,7 @@ async function fill(){
     let data=document.getElementById('filler').value
     console.log(data)
 
-    const name_re = new RegExp('[А-Яа-я]+ [А-Яа-я]+ *[А-Яа-я]*')
+    const name_re = new RegExp('[А-Яа-яЁё]+ [А-Яа-яЁё]+ *[А-Яа-яЁё]*')
     const phone_re = new RegExp('[\+]?[(]?[0-9]{3}[)]?[-\\s\.]?[0-9]{3}[-\\s\.]?[0-9]{4,6}')
     const email_re = new RegExp('[\\w.!#$%&\'*+-/=?^_`{|}~]+@\\w+.\\w+')
     let full_name=name_re.exec(data)
