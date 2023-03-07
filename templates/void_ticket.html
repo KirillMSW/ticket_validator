@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Html-Qrcode Demo</title>
+    <link rel="stylesheet" href="/static/index.css" type="text/css"/>
+    <script type = "text/javascript" src="/static/void.js"></script>
+  <body>
+    <div style="text-align:center">
+      <input type="text" style="font-size: 3em;text-transform: capitalize" id="ticket_id" placeholder="ID билета">
+      <br>
+      <button type="button"  class="pass" onclick="void_ticket()">Аннулировать билет</button>
+      <br>
+    </div>
+    <div id="success" style="display:none">
+        <div style="text-align:center"> 
+            <p class="validated_textfield">Билет аннулирован</p>
+        </div>
+    </div>
+    <div id="no_such_ticket" style="display:none">
+        <div style="text-align:center"> 
+            <p class="invalid_textfield">Билета не существует</p>
+        </div>
+    </div>
+    
+  </body>
+  </head>
+</html>

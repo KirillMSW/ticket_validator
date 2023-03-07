@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Html-Qrcode Demo</title>
+    <title>Ticket Generator</title>
     <link rel="stylesheet" href="/static/index.css" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
+    <script type = "text/javascript" src="/static/generator.js"></script>
   <body>
     <div style="text-align:center">
-      <input type="text" size="32" style="font-size: 3em;" id="name" placeholder="ФИО">
+      <textarea style="font-size: 3em;" id="filler" placeholder="Fill" rows="4" cols="40"></textarea>
       <br>
-      <input type="text" style="font-size: 3em;" id="people_amount" placeholder="Количество гостей">
+      <input type="text" class="name_input_field" id="surname" placeholder="Фамилия">
+      <br>
+      <input type="text" class="name_input_field" id="name" placeholder="Имя">
+      <br>
+      <input type="text" class="name_input_field" id="patronymic" placeholder="Отчество">
+      <br>
+      <input type="text" class="input_field"  id="phone" placeholder="Телефон">
+      <br>
+      <input type="text" class="input_field"  id="email" placeholder="Почта">
+      <br>
+      <button type="button"  class="pass" onclick="fill()">Заполнить</button>
       <br>
       <button type="button"  class="pass" onclick="pass()">Сгенерировать билет</button>
       <br>
-      <img id="ticket" src=""/>
+      <a id="clipboard_status"></a>
+      <img id="ticket" src="" style="max-width: 100%;"/>
     </div>
     
     <script>
-        async function pass(){
-            var name=document.getElementById('name').value
-            var people_amount=document.getElementById('people_amount').value
-            console.log(name)
-            formdata = new FormData;
-            formdata.append("name",name);
-            formdata.append("people_amount", people_amount);
-            const response = await fetch("http://127.0.0.1:5000/api/generate",{
-              method: 'POST',
-              body: formdata
-            });
-            const blob = await response.blob()
-            console.log(blob)
-            await navigator.clipboard.write([new ClipboardItem({'image/png':blob})])
-            var img_url=URL.createObjectURL(blob)
-            document.getElementById('ticket').src=img_url
-        }
-        
-        
+       
    </script>
   </body>
   
