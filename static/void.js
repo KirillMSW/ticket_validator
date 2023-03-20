@@ -6,7 +6,7 @@ async function void_ticket(){
     formdata = new FormData;
     formdata.append("ticket_id",ticket_id);
 
-    const response = await fetch("/api/void",{
+    const response = await fetch(API_URL+"/api/void",{
       method: 'POST',
       body: formdata
     });

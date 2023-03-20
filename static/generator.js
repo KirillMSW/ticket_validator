@@ -41,7 +41,7 @@ async function fill(){
       formdata.append("phone", phone);
       formdata.append("email", email);
 
-      const response = await fetch("/api/generate",{
+      const response = await fetch(API_URL+"/api/generate",{
         method: 'POST',
         body: formdata
       });
